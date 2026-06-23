@@ -284,11 +284,14 @@ function App(){
 
   const scoped=useMemo(()=>expenses.filter(e=>e.mode===mode),[expenses,mode]);
 
+  const aiOn = !!(settings.apiKey || settings.proxyUrl);
+  useEffect(()=>{ if(!aiOn && view==="assistant") setView("dashboard"); },[aiOn,view]);
+
   const nav=[
     {id:"dashboard",label:"Dashboard",icon:"dashboard"},
     {id:"add",label:"Add",icon:"plus"},
     {id:"gallery",label:"Receipts",icon:"images"},
-    {id:"assistant",label:"Assistant",icon:"sparkles"},
+    ...(aiOn ? [{id:"assistant",label:"Assistant",icon:"sparkles"}] : []),
     {id:"reports",label:"Reports",icon:"file"},
     {id:"settings",label:"Settings",icon:"cog"},
   ];
